@@ -6,11 +6,13 @@ public class DataBaseTest3 {
         String url = "jdbc:mysql://3.239.253.255:3306/syntaxhrm_mysql";
         String username = "syntax_hrm";
         String password = "syntaxhrm123";
+        Connection connection=null;
+        Statement statement=null;
 
         try {
-            Connection connection = DriverManager.getConnection(url, username, password);
+            connection = DriverManager.getConnection(url, username, password);
 
-            Statement statement = connection.createStatement();
+            statement = connection.createStatement();
 
             ResultSet resultSet = statement.executeQuery("select firstname, lastname, age, city " +
                     "from person where city is not null;");
@@ -42,8 +44,19 @@ public class DataBaseTest3 {
 
         } catch (SQLException e) {
             e.printStackTrace();
+            //close the connection
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
         }
-
-        }
+    }
     }
 
